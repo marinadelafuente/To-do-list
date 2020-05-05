@@ -14,7 +14,7 @@
 <body>
     <div class="container">
         <header class="text-center text-white my-4">
-            <h1 class="display-3 mb-4">To-do List</h1>
+            <h1 class="page-title display-3 mb-4">To-do List</h1>
             <form class="js-search-form d-flex justify-content-center form-group">
                 <div class="form-group">
                     <label for="search-task"></label>
@@ -23,21 +23,23 @@
             </form>
         </header>
         <main>
-            <h4 class="text-light text-center title">Tasks</h4>
-            <ul class="js-tasks tasks list-group mx-auto text-light">
+            <h4 class="text-light title">Tasks:</h4>
+            <ul class="js-tasks tasks list-group mx-auto text-light mb-4">
                 <li class="li list-group-item d-flex justify-content-between align-items-center">Ex.1: Clean the kitchen<span class="date">01/01/2020<i class="fas fa-trash-alt delete"></i></span>
                 </li>
                 <li class="li list-group-item d-flex justify-content-between align-items-center">Ex.2: Exercise<span class="date">01/01/2020<i class="fas fa-trash-alt delete"></i></span>
                 </li>
             </ul>
 
-            <form class="js-add form-group text-center my-4">
-                <label for="addTask" class="text-light title">Add a new task</label>
-                <input type="text" class="form-control m-auto input" name="addTask" id="addTask">
+            <form class="js-add form-group text-center mb-4">
+                <div class="label-container d-flex justify-content-between">
+                    <label for="addTask" class="text-light title js-add-task">Add a new task</label>
+                    <i class="fas fa-plus-circle task-plus"></i>
+                </div>
+                <input type="text" class="form-control input js-input" name="addTask" id="addTask">
             </form>
         </main>
     </div>
-
     <script src="js/app.js"></script>
 </body>
 
