@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/ae3f626c7b.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;600&family=Galada&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/style.css">
     <title>To-do list</title>
@@ -24,16 +25,19 @@
         <main>
             <h4 class="text-light text-center title">Tasks</h4>
             <ul class="js-tasks tasks list-group mx-auto text-light">
-                <li class="li list-group-item d-flex justify-content-between align-items-center">Ex.1: Clean the kitchen</li>
-                <li class="li list-group-item d-flex justify-content-between align-items-center">Ex.2: Exercise</li>
+                <li class="li list-group-item d-flex justify-content-between align-items-center">Ex.1: Clean the kitchen<span class="date">01/01/2020<i class="fas fa-trash-alt delete"></i></span>
+                </li>
+                <li class="li list-group-item d-flex justify-content-between align-items-center">Ex.2: Exercise<span class="date">01/01/2020<i class="fas fa-trash-alt delete"></i></span>
+                </li>
             </ul>
 
             <form class="js-add form-group text-center my-4">
-                <label for="addTask" class="text-light">Add a new task</label>
+                <label for="addTask" class="text-light title">Add a new task</label>
                 <input type="text" class="form-control m-auto input" name="addTask" id="addTask">
             </form>
         </main>
     </div>
+
     <script src="js/app.js"></script>
 </body>
 
