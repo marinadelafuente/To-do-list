@@ -8,7 +8,18 @@ const done = document.querySelector('.js-done-tasks');
 const addTask = document.querySelector('.js-add-task');
 const input = document.querySelector('.js-input');
 const taskPlus = document.querySelector('.task-plus');
+const boxes = document.querySelectorAll(".box");
 
+
+let revealing = {
+    origin: 'left',
+    distance: '110px',
+    opacity: 0,
+    easing: 'ease-in',
+    duration: 800,
+}
+
+ScrollReveal().reveal('.page-title', revealing);
 
 // ADD NEW TASK
 const handlerAddTask = ev => {
@@ -105,6 +116,31 @@ function dragDropBack() {
     this.classList.remove('done');
     this.style.backgroundColor = "#352f5b00";
 }
+
+// BOX ANIMATION
+gsap.from(".box", {
+    duration: 2,
+    scale: 0.5,
+    opacity: 0,
+    delay: 0.5,
+    stagger: 0.2,
+    ease: "elastic",
+    force3D: true
+});
+
+boxes.forEach(function (box) {
+    box.addEventListener("click", animation)
+});
+
+function animation() {
+    gsap.to(".box", {
+        duration: 0.5,
+        opacity: 0,
+        y: -100,
+        stagger: 0.1,
+        ease: "back.in"
+    });
+};
 
 addForm.addEventListener('submit', handlerAddTask);
 addTask.addEventListener('click', handlerAddTask);

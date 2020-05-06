@@ -12,6 +12,10 @@ body {
     font-family: 'Dosis', sans-serif;
 }
 
+html.sr .load-hidden {
+    visibility: hidden;
+}
+
 .container {
     max-width: 400px;
 }
@@ -126,4 +130,39 @@ body {
 
 .pointer:hover {
     cursor: auto;
+}
+
+.box {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    border-radius: 1px;
+    margin-top: 1px;
+    display: inline-block;
+    line-height: 50px;
+    text-align: center;
+    color: #333;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.purple {
+    background-color: #6009ee;
+}
+
+.blue {
+    background-color: #3538f7;
+}
+
+.pinkish {
+    background-color: #b56df0;
+}
+
+.pink {
+    background-color: rgba(177, 63, 243, 0.5);
+}
+
+.copy {
+    font-size: 10px;
+    color: #eeecf3;
 }
