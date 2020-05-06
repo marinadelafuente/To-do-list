@@ -40,7 +40,7 @@ body {
 
 .tasks {
     display: block;
-    min-height: 60px;
+    min-height: 90px;
     background-color: #352f5b00;
 }
 
@@ -116,4 +116,8 @@ body {
 
 .done {
     text-decoration: line-through;
+}
+
+.pointer:hover {
+    cursor: auto;
 }
