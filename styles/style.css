@@ -103,3 +103,17 @@ body {
 .delete:hover {
     transform: scale(1.2);
 }
+
+.hold {
+    border: rgb(236, 190, 190) 2px solid;
+}
+
+.subtitle {
+    font-size: 10px;
+    margin-bottom: 0;
+    padding-right: 2px;
+}
+
+.done {
+    text-decoration: line-through;
+}

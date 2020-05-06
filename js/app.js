@@ -17,13 +17,14 @@ const handlerAddTask = ev => {
     if (task.length) {
         generateTasksHtml(task);
         addForm.reset(); // resets all the input fields inside the form
+        handlerValidation();
     }
     drag();
 }
 
 const generateTasksHtml = task => {
     const now = new Date();
-    const html = `<li class="item-added li list-group-item d-flex justify-content-between align-items-center">${task}<span class="date">${now.toLocaleDateString()}<i class="fas fa-trash-alt delete"></i></span></li>`
+    const html = `<li class="item-added li list-group-item d-flex justify-content-between align-items-center" draggable="true">${task}<span class="date">${now.toLocaleDateString()}<i class="fas fa-trash-alt delete"></i></span></li>`
     taskList.innerHTML += html;
 }
 
@@ -63,6 +64,48 @@ const deleteTasks = (ev) => {
     }
 };
 
+// DRAG TASKS
+function drag() {
+    let tasks = Array.from(taskList.children);
+    tasks.forEach((item) => {
+        item.addEventListener('dragstart', dragStart);
+        item.addEventListener('dragend', dragEnd);
+
+        function dragStart(ev) {
+            draggedItem = ev.target;
+            this.classList.add('hold');
+            setTimeout(() => this.classList.add('hidden'), 0);
+        }
+
+        function dragEnd() {
+            this.classList.remove('hidden', 'hold');
+            this.style.display = "block";
+        }
+    })
+}
+function dragOver(ev) {
+    ev.preventDefault();
+    this.style.backgroundColor = "#311b9265";
+}
+function dragEnter(ev) {
+    ev.preventDefault();
+    this.style.backgroundColor = "#352f5b00";
+}
+function dragLeave(ev) {
+    ev.preventDefault();
+    this.style.backgroundColor = "#352f5b00";
+}
+function dragDrop() {
+    this.prepend(draggedItem);
+    this.classList.add('done');
+    this.style.backgroundColor = "#352f5b00";
+}
+function dragDropBack() {
+    this.prepend(draggedItem);
+    this.classList.remove('done');
+    this.style.backgroundColor = "#352f5b00";
+}
+
 addForm.addEventListener('submit', handlerAddTask);
 addTask.addEventListener('click', handlerAddTask);
 taskPlus.addEventListener('click', handlerAddTask);
@@ -70,4 +113,18 @@ taskList.addEventListener('click', deleteTasks);
 done.addEventListener('click', deleteTasks);
 search.addEventListener('keyup', handlerSearchTask);
 input.addEventListener('keyup', handlerValidation);
+
+drag();
+
+done.addEventListener('dragover', dragOver);
+taskList.addEventListener('dragover', dragOver);
+
+done.addEventListener('dragenter', dragEnter);
+taskList.addEventListener('dragenter', dragEnter);
+
+done.addEventListener('dragleave', dragLeave);
+taskList.addEventListener('dragleave', dragLeave);
+
+done.addEventListener('drop', dragDrop);
+taskList.addEventListener('drop', dragDropBack);
 
