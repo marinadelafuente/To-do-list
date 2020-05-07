@@ -11,6 +11,7 @@ const taskPlus = document.querySelector('.task-plus');
 const boxes = document.querySelectorAll(".box");
 
 
+// TITLE SCROLL REVEALING
 let revealing = {
     origin: 'left',
     distance: '110px',
@@ -141,6 +142,9 @@ function animation() {
         ease: "back.in"
     });
 };
+
+
+//EVENT LISTENERS
 
 addForm.addEventListener('submit', handlerAddTask);
 addTask.addEventListener('click', handlerAddTask);
