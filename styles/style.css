@@ -104,7 +104,7 @@ html.sr .load-hidden {
     font-size: 10px;
 }
 
-.delete {
+.delete, .del{
     cursor: pointer;
     font-size: 12px;
     padding-left: 10px;
