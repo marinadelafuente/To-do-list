@@ -3,6 +3,7 @@
 const search = document.querySelector(".js-search");
 const searchForm = document.querySelector(".js-search-form");
 const taskList = document.querySelector(".js-tasks");
+const garbage = document.querySelector(".js-tasks span");
 const addForm = document.querySelector(".js-add");
 const done = document.querySelector(".js-done-tasks");
 const addTask = document.querySelector(".js-add-task");
@@ -10,9 +11,10 @@ const input = document.querySelector(".js-input");
 const taskPlus = document.querySelector(".task-plus");
 const boxes = document.querySelectorAll(".box");
 
-let newTasks = Array.from(taskList.children);
+let newTasks = [];
 let newLSTasks = [];
-console.log(newTasks);
+let draggedTasks = [];
+let draggedLSTasks = [];
 
 // TITLE SCROLL REVEALING
 let revealing = {
@@ -30,8 +32,14 @@ function getLocalStorage() {
   newLSTasks = JSON.parse(newLSTasks);
   if (newLSTasks !== null) {
     newTasks = newLSTasks;
-    generateHtmlTemplate();
-    listenTasks();
+    generateTasksHtml();
+    drag();
+  }
+  draggedLSTasks = localStorage.getItem("draggedTasks");
+  draggedLSTasks = JSON.parse(draggedLSTasks);
+  if (draggedLSTasks !== null) {
+    console.log(draggedLSTasks);
+    generateDraggedTasksHtml();
     drag();
   }
 }
@@ -46,19 +54,16 @@ const handlerAddTask = (ev) => {
   const task = input.value.trim(); // trim remove any white spaces before/after the string
   if (task.length) {
     newTasks.push(task);
-
-    generateHtmlTemplate();
-    listenTasks();
-    handlerValidation();
+    generateTasksHtml(task);
     addForm.reset(); // resets all the input fields inside the form
+    handlerValidation();
   }
   drag();
   setLocalStorage();
 };
 
-const generateHtmlTemplate = function () {
+const generateTasksHtml = () => {
   let html = "";
-
   for (let i = 0; i < newTasks.length; i++) {
     const index = newTasks.indexOf(newTasks[i]);
     const now = new Date();
@@ -67,25 +72,47 @@ const generateHtmlTemplate = function () {
     }<span class="date">${now.toLocaleDateString()}<i class="fas fa-trash-alt delete"></i></span></li>`;
   }
   taskList.innerHTML = html;
-  listenTasks();
-};
-
-const listenTasks = function () {
   const deleteBtns = document.querySelectorAll(".delete");
   deleteBtns.forEach((deleteBtn) => {
-    deleteBtn.addEventListener("click", deleteTask);
+    deleteBtn.addEventListener("click", deleteTasks);
   });
 };
 
-// DELETE TASKS
-function deleteTask(ev) {
-  if (ev.target.classList.contains("delete")) {
+const generateDraggedTasksHtml = () => {
+  let html = "";
+  console.log(draggedLSTasks);
+  for (let i = 0; i < draggedLSTasks.length; i++) {
+    console.log(draggedLSTasks[i]);
+
+    const index = draggedLSTasks.indexOf(draggedLSTasks[i]);
+    html += `<li class="item-added li list-group-item d-flex justify-content-between align-items-center done" draggable="true" id=${index}>${draggedLSTasks[i][0]}
+      <span class="date">${draggedLSTasks[i][1]}<i class="fas fa-trash-alt delete"></i></span></li>`;
+  }
+  done.innerHTML = html;
+  const deleteBtns = document.querySelectorAll(".delete");
+  deleteBtns.forEach((deleteBtn) => {
+    deleteBtn.addEventListener("click", (ev) => {
+      ev.target.parentElement.parentElement.remove();
+    });
+  });
+};
+
+const deleteTasks = (ev) => {
+  const index = ev.target.parentElement.parentElement.id;
+  const isInArray = index !== -1;
+  if (isInArray) {
+    newTasks.splice(index, 1);
+  }
+  generateTasksHtml();
+  setLocalStorage();
+};
+
+const deleteExamples = (ev) => {
+  if (ev.target.classList.contains("del")) {
     ev.target.parentElement.parentElement.remove();
-    taskId = parseInt(ev.target.parentElement.parentElement.id);
-    newTasks.splice(taskId, 1);
     setLocalStorage();
   }
-}
+};
 
 const handlerValidation = () => {
   if (input.value.length) {
@@ -116,8 +143,9 @@ const filterTasks = (searchTerm) => {
 };
 
 // DRAG TASKS
-function drag() {
+const drag = () => {
   let tasks = Array.from(taskList.children);
+
   tasks.forEach((item) => {
     item.addEventListener("dragstart", dragStart);
     item.addEventListener("dragend", dragEnd);
@@ -131,9 +159,23 @@ function drag() {
     function dragEnd() {
       this.classList.remove("hidden", "hold");
       this.style.display = "block";
+
+      newTasks.splice(this.id, 1);
+
+      let draggedItem = [
+        this.firstChild.textContent,
+        this.lastChild.textContent,
+      ];
+      console.log(draggedItem);
+
+      draggedTasks.push(draggedItem);
+      console.log(draggedTasks);
+
+      setLocalStorage();
+      localStorage.setItem("draggedTasks", JSON.stringify(draggedTasks));
     }
   });
-}
+};
 function dragOver(ev) {
   ev.preventDefault();
   this.style.backgroundColor = "#311b9265";
@@ -187,9 +229,10 @@ function animation() {
 addForm.addEventListener("submit", handlerAddTask);
 addTask.addEventListener("click", handlerAddTask);
 taskPlus.addEventListener("click", handlerAddTask);
+garbage.addEventListener("click", deleteExamples);
+done.addEventListener("click", deleteExamples);
 search.addEventListener("keyup", handlerSearchTask);
 input.addEventListener("keyup", handlerValidation);
-done.addEventListener("click", deleteTask);
 
 drag();
 
